@@ -1,12 +1,18 @@
 package lab3_1;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
+import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.BookKeeper;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.InvoiceFactory;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.InvoiceRequest;
+import pl.com.bottega.ecommerce.sales.domain.invoicing.Tax;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.TaxPolicy;
+import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductData;
+import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductType;
+import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 public class TestCase1 {
 	
@@ -15,10 +21,15 @@ public class TestCase1 {
 		//given
 		InvoiceFactory invoiceFactory = new InvoiceFactory();
 		BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
-		TaxPolicy taxPolicy;
 		String name = "name";
+		Id id = Id.generate();
 		ClientData clientData = new ClientData(id, name);
 		InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
+		
+		Money money = new Money(10);
+		TaxPolicy taxPolicy = Mockito.mock(TaxPolicy.class);
+		Mockito.when(taxPolicy.calculateTax(ProductType.DRUG, money)).thenReturn(new Tax(money, ""));
+		
 		bookKeeper.issuance(invoiceRequest, taxPolicy);
 		
 	}
