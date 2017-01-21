@@ -2,8 +2,10 @@ package lab3_1;
 
 import org.junit.Test;
 
+import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.BookKeeper;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.InvoiceFactory;
+import pl.com.bottega.ecommerce.sales.domain.invoicing.InvoiceRequest;
 import pl.com.bottega.ecommerce.sales.domain.invoicing.TaxPolicy;
 
 public class TestCase1 {
@@ -14,6 +16,10 @@ public class TestCase1 {
 		InvoiceFactory invoiceFactory = new InvoiceFactory();
 		BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 		TaxPolicy taxPolicy;
+		String name = "name";
+		ClientData clientData = new ClientData(id, name);
+		InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
+		bookKeeper.issuance(invoiceRequest, taxPolicy);
 		
 	}
 
